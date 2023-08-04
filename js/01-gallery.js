@@ -1,7 +1,11 @@
 import { galleryItems } from './gallery-items.js';
+
 // Change code below this line
+console.log(galleryItems);
+
 const listRef = document.querySelector(".gallery");
 const galleryMarkup = createGalleryItems(galleryItems);
+
 
 listRef.insertAdjacentHTML("beforeend", galleryMarkup);
 
@@ -24,26 +28,32 @@ function createGalleryItems(galleryItems) {
 }
 
 
-listRef.addEventListener("click", onClick); 
+listRef.insertAdjacentHTML("beforeend", galleryMarkup);
+
+listRef.addEventListener("click", onClick);
 
 function onClick(evt) {
-    evt.preventDefault();
-    if(!evt.target.classList.contains("gallery-item")) {
-        return;
-    }
-console.log(evt.target);
+  evt.preventDefault();
+  
+if(evt.target.nodeName !== "IMG") {
+  return;
+}
+
+const instance = basicLightbox.create(`
+    <img src="${evt.target.dataset.source}">
+    `)
+
+    instance.show() 
+
+    listRef.addEventListener("keydown", (evt) => {
+      if(evt.code==="Escape") {
+        instance.close();
+      }
+    });
+
 }
 
 
-// import * as basicLightbox from 'basiclightbox'
 
-// const instance = basicLightbox.create(`
-//     <div class="modal">
-//         <p>
-//             Your first lightbox with just a few lines of code.
-//             Yes, it's really that simple.
-//         </p>
-//     </div>
-// `)
 
-// instance.show()
+
